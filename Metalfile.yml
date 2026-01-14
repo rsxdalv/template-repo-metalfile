@@ -1,0 +1,37 @@
+package:
+  name: template-app
+  version: 0.1.0
+  architecture: all
+  depends: [nodejs, nginx]
+  description: Example Node app served via nginx and systemd on port 3003
+
+files:
+  - src: ./app/app.js
+    dest: /opt/template-app/app.js
+  - src: ./app/package.json
+    dest: /opt/template-app/package.json
+  - src: ./config/nginx-template-app.conf
+    dest: /etc/nginx/sites-available/template-app.conf
+  - src: ./config/template-app.service
+    dest: /etc/systemd/system/template-app.service
+
+postinst: |
+  #!/bin/bash
+  set -e
+  APP_DIR=/opt/template-app
+  SITE_LINK=/etc/nginx/sites-enabled/template-app.conf
+
+  mkdir -p "$APP_DIR"
+  mkdir -p /var/log/template-app
+
+  # Ensure nginx site is enabled
+  if [ ! -e "$SITE_LINK" ]; then
+    ln -s /etc/nginx/sites-available/template-app.conf "$SITE_LINK"
+  fi
+
+  systemctl daemon-reload
+  systemctl enable template-app.service
+  systemctl restart template-app.service
+
+  # Reload nginx to pick up site config
+  systemctl reload nginx || systemctl restart nginx

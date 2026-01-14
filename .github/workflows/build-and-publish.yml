@@ -1,0 +1,26 @@
+name: Build and Publish Debian Package
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Debian package
+        uses: rsxdalv/metalfile-builder@v0.0.2
+        with:
+          manifest: Metalfile.yml
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: template-app-deb
+          path: dist/*.deb

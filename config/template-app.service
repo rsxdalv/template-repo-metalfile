@@ -1,0 +1,16 @@
+[Unit]
+Description=Template Node app (port 3003)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/template-app
+Environment=PORT=3003
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node /opt/template-app/app.js
+Restart=on-failure
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

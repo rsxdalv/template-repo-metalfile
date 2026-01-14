@@ -1,0 +1,9 @@
+{
+  "name": "template-app",
+  "version": "0.1.0",
+  "main": "app.js",
+  "description": "Hello world Node app served via nginx and systemd on port 3003",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
