@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Debian package
-        uses: rsxdalv/metalfile-builder@v0.0.2
+        uses: rsxdalv/metalfile-builder@v0.0.3
         with:
           manifest: Metalfile.yml
 
